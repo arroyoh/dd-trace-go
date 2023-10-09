@@ -128,6 +128,9 @@ func (ddh *datadogHook) BeforeProcess(ctx context.Context, cmd redis.Cmder) (con
 	if !math.IsNaN(p.config.analyticsRate) {
 		opts = append(opts, tracer.Tag(ext.EventSampleRate, p.config.analyticsRate))
 	}
+	if p.config.measured {
+		opts = append(opts, tracer.Measured())
+	}
 	_, ctx = tracer.StartSpanFromContext(ctx, p.config.spanName, opts...)
 	return ctx, nil
 }

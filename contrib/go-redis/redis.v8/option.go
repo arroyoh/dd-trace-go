@@ -19,6 +19,7 @@ type clientConfig struct {
 	spanName      string
 	analyticsRate float64
 	skipRaw       bool
+	measured      bool
 	errCheck      func(err error) bool
 }
 
@@ -84,5 +85,12 @@ func WithAnalyticsRate(rate float64) ClientOption {
 func WithErrorCheck(fn func(err error) bool) ClientOption {
 	return func(cfg *clientConfig) {
 		cfg.errCheck = fn
+	}
+}
+
+// Measured marks spans to be measured for metrics and stats calculations
+func Measured() ClientOption {
+	return func(cfg *clientConfig) {
+		cfg.measured = true
 	}
 }
